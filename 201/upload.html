@@ -1,0 +1,85 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>ESSENCE - UPLOAD</title>
+
+<link rel="stylesheet" type="text/css" href="upload.css"/>
+<link rel="stylesheet" href="font-awesome-4.6.3/css/font-awesome.css">
+</head>
+
+<body>
+<div class="page">
+<ul>
+  <li><a href="upload.html">UPLOAD</a></li>
+  <a href="corrigan_website.html"><img class="logo" src="images/E.png" alt="Logo" width="150" height=""/></a>
+  <li><a href="search.html">SEARCH</a></li>
+</ul>
+<div class="input">
+<input type="text" id="userText" placeholder=" what's your mood today...">
+<button onclick="saveData()">submit</button>
+</div>
+
+<div id="timeline"></div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script> 
+<script src="https://www.gstatic.com/firebasejs/3.4.1/firebase.js"></script><script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyBcVJsd1tQqEFKeWZ5VD1AMh79BfDnNlyk",
+    authDomain: "project-3-7caba.firebaseapp.com",
+    databaseURL: "https://project-3-7caba.firebaseio.com",
+    storageBucket: "project-3-7caba.appspot.com",
+    messagingSenderId: "595847032866"
+  };
+  firebase.initializeApp(config);
+  
+	var database = firebase.database();
+  
+  function saveData(){
+	 var userInputText = $('#userText').val(); 
+	 
+	 database.ref('/').push({
+		hello: userInputText,
+				
+	  });
+	}
+
+
+database.ref('/').on('value', function(snapshot) {
+	  $('#timeline').empty();
+ 
+	  
+	  var data = snapshot.val();
+	  console.log(data);
+	  
+	  $.each(data, function( index, value ) {
+		  console.log(value.hello);
+		  $( "#timeline" ).prepend( "<p>" + value.hello + "</p>" );
+		  $("#userText").val('');
+		});
+});
+
+$(document).ready(function () {
+    var back = ["#ff0000","orange","yellow","#10E700","blue","purple"];
+    var rand = back[Math.floor(Math.random() * back.length)];
+    console.log(rand);
+    $('#timeline').css('color',rand);
+    })
+	
+</script>
+
+<div class="refresh">
+<a href="#" id="refresh" onClick="window.location.reload()">refresh your colours</a>
+</div>
+
+<footer>
+<ul class="footer">
+  <li><a href="https://www.instagram.com/essence_oneaday/"><i class="fa fa-instagram fa-lg" aria-hidden="true"></i></a></li>
+  <li>&copy Darcy Corrigan 2016</li>
+  <li><a href="https://www.facebook.com/Essence-One-a-Day-1801466833407702/?skip_nax_wizard=true"><i class="fa fa-facebook-official fa-lg" aria-hidden="true"></i></a></li>
+  </ul>
+</footer>
+</div>
+</body>
+</html>
